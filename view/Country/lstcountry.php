@@ -12,29 +12,32 @@ function setIdCountry($id)
 ?>
 <script src="js/Bootstrap/bootstrap.min.js"></script>
 <section>
-    <h1>Listado de Paises</h1>
     <div class="container">
-        <table id="misPaises" class="display dataTable">
-            <thead>
-                <tr>
-                    <th class="sorting_disabled" rowspan="1" colspan="1">Id pais</th>
-                    <th class="sorting_disabled" rowspan="1" colspan="1">Nombre del pais</th>
-                    <th rowspan="1" colspan="1"></th>
-            </thead>
-            <tbody>
-                <?php foreach ($objCountry->loadAllData() as $pais) : ?>
+        <h1>Listado de Paises 3</h1>
+        <div class="container">
+            <table id="misPaises" class="display dataTable">
+                <thead>
                     <tr>
-                        <td><?php echo $pais['id_country']; ?></td>
-                        <td><?php echo $pais['name_country']; ?></td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-abrir-modal">-</button>
-                            <button type="button" class="btn btn-primary btn-editar-modal">E</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                        <th class="sorting_disabled" rowspan="1" colspan="1">Id pais</th>
+                        <th class="sorting_disabled" rowspan="1" colspan="1">Nombre del pais</th>
+                        <th rowspan="1" colspan="1"></th>
+                </thead>
+                <tbody>
+                    <?php foreach ($objCountry->loadAllData() as $pais) : ?>
+                        <tr>
+                            <td><?php echo $pais['id_country']; ?></td>
+                            <td><?php echo $pais['name_country']; ?></td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-abrir-modal">-</button>
+                                <button type="button" class="btn btn-primary btn-editar-modal">E</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </section>
 <div class="modal fade " id="verifdel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-l">
@@ -68,7 +71,7 @@ function setIdCountry($id)
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <h5 class="card-header">Confirmacion de eliminacion</h5>
+                    <h5 class="card-header">Confirmacion de edicion</h5>
                     <div class="card-body">
                         <h3>Edicion de paises</h3>
                         <form id="frmUpdateData">
@@ -110,8 +113,8 @@ function setIdCountry($id)
             row = tabla.row($(this).parents('tr'));
             var fila = tabla.row($(this).closest('tr')).data();
             idCountryBorrar = fila[0]; // Obtener el valor de la columna 'Nombre'
-            inputsData.set("id_country",fila[0]);
-            inputsData.set("name_country",fila[1]);
+            inputsData.set("id_country", fila[0]);
+            inputsData.set("name_country", fila[1]);
             document.querySelector('.badge').innerHTML = fila[0];
             // Itera a través de los pares clave-valor de los datos
             for (var pair of inputsData.entries()) {
@@ -122,11 +125,13 @@ function setIdCountry($id)
             // Abrir el modal y mostrar el nombre del usuario
         });
     });
-    function editarData(){
+
+    function editarData() {
         const frm = document.querySelector('#frmUpdateData');
         const info = Object.fromEntries(new FormData(frm));
         console.log(info);
     }
+
     function abrirModal(idpk, info) {
         $('#verifdel').modal('show');
         document.querySelector('#info').innerHTML = 'Desea eliminar a: <b>' + info + '</b> con Id' + idpk;
