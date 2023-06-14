@@ -25,10 +25,10 @@
                 ),
             "psql" => array(
                         'driver' => 'pgsql',
-                        'host' => 'localhost',
-                        'username' => 'postgres',
-                        'database' => 'mitienda',
-                        'password' => '123456',
+                        'host' => '172.16.48.210',
+                        'username' => 'apolo',
+                        'database' => 'sgavapp',
+                        'password' => '@pol0Adm1n$',
                         'flags' => [
                             // Turn off persistent connections
                             \PDO::ATTR_PERSISTENT => false,
@@ -51,7 +51,6 @@
             $dsn = "{$dbConfig['driver']}:host={$dbConfig['host']};dbname={$dbConfig['database']}";
             try{
                 $this->conn = new \PDO($dsn, $dbConfig['username'], $dbConfig['password'], $dbConfig['flags']);
-                echo 'ok';
             }catch(\PDOException $exception){
                 $error=[[
                     'error' => $exception->getMessage(),

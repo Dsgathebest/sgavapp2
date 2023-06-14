@@ -3,7 +3,7 @@
         'name' => 'desarrollo/inventario-php',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'accd340aa4ca01851c2c6eed10a61e2042b8670d',
+        'reference' => 'ed005f1f6a578129082658c7e3364f14681697c9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'desarrollo/inventario-php' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'accd340aa4ca01851c2c6eed10a61e2042b8670d',
+            'reference' => 'ed005f1f6a578129082658c7e3364f14681697c9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

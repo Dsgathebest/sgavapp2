@@ -22,7 +22,7 @@
     const datos=<?php echo $_DATA;?>;
     $('#myTable').DataTable(  {
         data: datos,
-        pageLength: 4,
+        pageLength: 2,
         columns: [
                     { data: 'id_country' },
                     { data: 'name_country' }

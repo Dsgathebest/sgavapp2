@@ -26,44 +26,17 @@ function setIdCountry($id)
                     <tr>
                         <td><?php echo $pais['id_country']; ?></td>
                         <td><?php echo $pais['name_country']; ?></td>
-                        <!-- <td><a href="controllers/Country/delete_data.php?id=<?php echo $pais['id_country']; ?>" class="btn btn-danger">-</button></td> -->
                         <td>
                             <button type="button" class="btn btn-danger btn-abrir-modal">-</button>
-                            <button type="button" class="btn btn-primary btn-abrir-modal">E</button>
+                            <button type="button" class="btn btn-primary btn-editar-modal">E</button>
                         </td>
-
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </section>
-<!-- Modal de Confirmacion de eliminacion -->
-    <div class="modal fade " id="verifdel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-l">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-                        <h5 class="card-header">Confirmacion de eliminacion</h5>
-                        <div class="card-body">
-                            <h3></h3>
-                            <div id="info"></div>
-                            <button type="button" class="btn btn-danger borrardef" onclick="borrarDataDb()" data-bs-dismiss="modal">Confirmar eliminacion</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-<!-- Modal de confirmacion de Edicion -->
-    <div class="modal fade " id="verifdel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade " id="verifdel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-l">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,11 +45,38 @@ function setIdCountry($id)
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <h5 class="card-header">Confirmacion de Edicion</h5>
+                    <h5 class="card-header">Confirmacion de eliminacion</h5>
                     <div class="card-body">
                         <h3></h3>
                         <div id="info"></div>
-                        <button type="button" class="btn btn-danger borrardef" onclick="upDate()" data-bs-dismiss="modal">Confirmar eliminacion</button>
+                        <button type="button" class="btn btn-danger borrardef" onclick="borrarDataDb()" data-bs-dismiss="modal">Confirmar eliminacion</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="updateData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <h5 class="card-header">Confirmacion de eliminacion</h5>
+                    <div class="card-body">
+                        <h3>Edicion de paises</h3>
+                        <form id="frmUpdateData">
+                            <input id="id_country" name="id_country" type="hidden" value="0">
+                            Nombre del Pais <h6><span class="badge bg-primary"></span></h6>
+                            <input type="text" name="name_country">
+                            <button type="button" class="btn btn-primary" onclick="editarData()" data-bs-dismiss="modal">Editar</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -103,15 +103,31 @@ function setIdCountry($id)
 
             // Abrir el modal y mostrar el nombre del usuario
             abrirModal(fila[0], fila[1]);
-
-
+        });
+        $('#misPaises tbody').on('click', '.btn-editar-modal', function() {
+            const frm = document.querySelector('#frmUpdateData');
+            const inputsData = new FormData(frm);
+            row = tabla.row($(this).parents('tr'));
+            var fila = tabla.row($(this).closest('tr')).data();
+            idCountryBorrar = fila[0]; // Obtener el valor de la columna 'Nombre'
+            inputsData.set("id_country",fila[0]);
+            inputsData.set("name_country",fila[1]);
+            document.querySelector('.badge').innerHTML = fila[0];
+            // Itera a través de los pares clave-valor de los datos
+            for (var pair of inputsData.entries()) {
+                // Establece los valores correspondientes en el formulario
+                frm.elements[pair[0]].value = pair[1];
+            }
+            $('#updateData').modal('show');
+            // Abrir el modal y mostrar el nombre del usuario
         });
     });
-
+    function editarData(){
+        const frm = document.querySelector('#frmUpdateData');
+        const info = Object.fromEntries(new FormData(frm));
+        console.log(info);
+    }
     function abrirModal(idpk, info) {
-        // Personaliza la lógica para abrir el modal y mostrar el nombre del usuario
-        // Puedes utilizar jQuery o JavaScript puro para abrir el modal y establecer el contenido
-        // Aquí tienes un ejemplo utilizando jQuery:
         $('#verifdel').modal('show');
         document.querySelector('#info').innerHTML = 'Desea eliminar a: <b>' + info + '</b> con Id' + idpk;
     }
@@ -131,7 +147,7 @@ function setIdCountry($id)
     $('#misPaises').DataTable({
 
         pageLength: 4,
-        lengthMenu: [3, 5, 10, 25, 50, 100],
+        lengthMenu: [1, 3, 5, 10, 15, 25, 50, 100],
         language: {
 
             "decimal": "",
